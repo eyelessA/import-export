@@ -1,0 +1,8 @@
+/* Импорт Bootstrap */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+/* Импорт Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
