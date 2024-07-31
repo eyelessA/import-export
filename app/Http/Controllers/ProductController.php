@@ -10,6 +10,7 @@ use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
 use Inertia\ResponseFactory;
 use Maatwebsite\Excel\Facades\Excel;
@@ -33,7 +34,7 @@ class ProductController extends Controller
     public function import(): Application|Redirector|RedirectResponse
     {
         Excel::import(new ProductsImport(), 'public/import example.xlsx');
-        Excel::import(new ImagesImport(), 'public/import example.xlsx');
+        Excel::import(new ImagesImport(), Storage::disk('public')->path('import example.xlsx'));
         Excel::import(new AdditionalFieldsImport(), 'public/import example.xlsx');
 
         return redirect('/')->with('success', 'All good!');

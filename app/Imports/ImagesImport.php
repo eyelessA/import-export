@@ -4,7 +4,6 @@ namespace App\Imports;
 
 use App\Models\Image;
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -13,31 +12,24 @@ class ImagesImport implements ToModel, WithHeadingRow
     /**
      * @param array $row
      *
-     * @return Model|null
+     * @return array
      */
-    public function model(array $row): ?Model
+    public function model(array $row): array
     {
+        $product = Product::query()->where('external_code', $row['vnesnii_kod'])->first();
 
-        $productCode = $row['vnesnii_kod'];
         $photoLinks = explode(',', $row['dop_pole_ssylki_na_foto']);
-        $photo = '';
+        $photos = [];
 
         foreach ($photoLinks as $photoLink) {
-            $photo = '';
-            $photo = $photoLink;
+            if (!Image::query()->where('product_id', $product->id)->where('link', $photoLink)->exists()) {
+                $photos[] = Image::query()->create([
+                    'product_id' => $product->id,
+                    'public_path' => $photoLink,
+                ]);
+            }
         }
 
-
-        $product = Product::query()->where('external_code', $productCode)->first();
-
-
-        return Image::query()->updateOrCreate(
-            [
-                'link' => $photo,
-            ],
-            [
-                'product_id' => $product->id,
-            ]
-        );
+        return $photos;
     }
 }

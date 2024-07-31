@@ -1,29 +1,25 @@
 <script>
-import axios from 'axios';
+import { Link } from '@inertiajs/vue3'
+
 export default {
     name: "Index",
 
+    components: {
+        Link
+    },
+
     props: [
         'products'
-    ],
-
-    methods: {
-        showProduct(productId) {
-            axios.get(`/products/${productId}`)
-                .then(res => {
-                    console.log(res.data);
-                })
-        }
-    }
+    ]
 }
 </script>
 
 <template>
     <div v-for="product in products">
-        <a @click.prevent="showProduct(product.id)">{{ product.name }}</a>
+        <Link :href="`/products/${product.id}`">{{ product.name }}</Link>
     </div>
 </template>
 
 <style scoped>
-
+/* Ваши стили */
 </style>

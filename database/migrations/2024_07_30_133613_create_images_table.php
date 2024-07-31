@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('link');
-//            $table->string('path');
+            $table->string('public_path');
+            $table->string('local_path')->nullable();
 
             $table->unsignedBigInteger('product_id');
             $table->index('product_id', 'image_product_id_index');
             $table->foreign('product_id', 'image_product_id_foreign')->on('products')->references('id');
 
             $table->timestamps();
+
+            $table->unique(['product_id', 'public_path']);
         });
     }
 
