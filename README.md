@@ -116,3 +116,10 @@ composer require maatwebsite/excel:^3.1
 </ol>
 
 ## Как запустить
+* `composer install`
+* `npm install`
+* `npm run dev`
+* `php artisan serve`
+* установить .env
+* `php artisan key:generate`
+
