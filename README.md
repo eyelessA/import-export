@@ -117,6 +117,7 @@ composer require maatwebsite/excel:^3.1
 
 ## Как запустить
 * `composer install`
+* `docker compose exec -T php php artisan storage:link`
 * `установить .env на основе .env.example`
 * `docker compose up -d --build`
 * `docker compose exec -T php php artisan migrate`

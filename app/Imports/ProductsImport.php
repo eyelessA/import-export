@@ -23,7 +23,7 @@ class ProductsImport implements ToModel, WithHeadingRow
             [
                 'name' => $row['naimenovanie'],
                 'description' => $row['opisanie'],
-                'price' => $row['cena_cena_prodazi'],
+                'price' => (float) $row['cena_cena_prodazi'],
                 'discount' => $row['zapretit_skidki_pri_prodaze_v_roznicu'],
             ]
         );

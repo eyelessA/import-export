@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('external_code')->unique();
             $table->string('name');
             $table->text('description');
-            $table->unsignedBigInteger('price');
+            $table->decimal('price');
             $table->string('discount');
             $table->timestamps();
         });
