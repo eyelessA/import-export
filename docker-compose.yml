@@ -22,10 +22,10 @@ services:
     mysql:
         image: mysql:8.0
         environment:
-            MYSQL_DATABASE: ${MAIN_MYSQL_DATABASE}
-            MYSQL_USER: ${MAIN_MYSQL_USER}
-            MYSQL_PASSWORD: ${MAIN_MYSQL_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${MAIN_MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
         ports:
             - "6000:3306"
         volumes:
