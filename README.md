@@ -117,9 +117,11 @@ composer require maatwebsite/excel:^3.1
 
 ## Как запустить
 * `composer install`
-* `npm install`
-* `npm run dev`
-* `php artisan serve`
-* установить .env
-* `php artisan key:generate`
+* `установить .env на основе .env.example`
+* `docker compose up -d --build`
+* `docker compose exec -T php php artisan migrate`
+* `docker compose exec -T php php artisan generate`
+
+Билд фронта лежит в /public, отдельно билдить не нужно.
+
 

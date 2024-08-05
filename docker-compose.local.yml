@@ -1,41 +1,43 @@
 version: '3'
 
 services:
-    nginx:
-        image: nginx:latest
-        ports:
-            - '8080:80'
-        volumes:
-            - .:/var/www
-            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
-        depends_on:
-            - php
-        container_name: import_export_nginx
+  nginx:
+    image: nginx:latest
+    ports:
+      - '8080:80'
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - php
+    container_name: import_export_nginx
 
-    php: &php
-        build:
-            context: .
-            dockerfile: ./docker/php/Dockerfile.local
-        volumes:
-            - .:/var/www
-        container_name: import_export_php
+  php: &php
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile.local
+    volumes:
+      - .:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+    container_name: import_export_php
 
-    mysql:
-        image: mysql:8.0
-        environment:
-            MYSQL_DATABASE: ${DB_DATABASE}
-            MYSQL_USER: ${DB_USERNAME}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-        ports:
-            - "6000:3306"
-        volumes:
-            - ./tmp/wok_mysql:/var/lib/mysql
-        command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
-        restart: unless-stopped
-        container_name: import_export_mysql
+  postgres:
+    image: library/postgres:12.3
+    volumes:
+      - ./pgsql_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - PGGSSENCMODE=disable
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    container_name: import_export_postgres
 
-    queue:
-        <<: *php
-        command: [ 'php', 'artisan', 'queue:work' ]
-        container_name: import_export_queue
+  queue:
+    <<: *php
+    command: [ 'php', 'artisan', 'queue:work' ]
+    depends_on:
+      - postgres
+    container_name: import_export_queue

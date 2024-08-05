@@ -3,4 +3,8 @@ FROM php:8.2-fpm
 WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y \
-      docker-php-ext-install pdo_mysql
+      apt-utils \
+      libpq-dev && \
+      docker-php-ext-install pdo pdo_pgsql && \
+      docker-php-ext-install sockets && \
+      rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
