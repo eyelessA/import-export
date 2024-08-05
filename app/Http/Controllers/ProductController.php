@@ -24,10 +24,10 @@ class ProductController extends Controller
         return inertia('Index', compact('products'));
     }
 
-    public function show(Product $product)
+    public function show(Product $product): Response|ResponseFactory
     {
-        $product = ProductResource::make($product);
         $productImage = $product->images;
+        $product = ProductResource::make($product);
         return Inertia('Show', compact('product', 'productImage'));
     }
 
@@ -37,6 +37,6 @@ class ProductController extends Controller
         Excel::import(new ImagesImport(), Storage::disk('public')->path('import example.xlsx'));
         Excel::import(new AdditionalFieldsImport(), 'public/import example.xlsx');
 
-        return redirect('/')->with('success', 'All good!');
+        return redirect('/products');
     }
 }

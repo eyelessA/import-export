@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('public_path');
-            $table->string('local_path')->nullable();
+            $table->string('local_path');
 
             $table->unsignedBigInteger('product_id');
             $table->index('product_id', 'image_product_id_index');

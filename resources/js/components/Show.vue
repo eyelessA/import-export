@@ -10,34 +10,29 @@ export default {
 </script>
 
 <template>
-    <div v-for="image in productImage" :key="image.id">
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" :src="image.public_path" alt="Card image cap">
-            <div class="card-body">
-                <p class="card-text">{{ product.data.description }}</p>
+    <div class="container p-2">
+        <div class="row justify-content-center">
+            <div class="col-md-3 mb-3" v-for="image in productImage" :key="image.id">
+                <div class="card">
+                    <img :src="image.public_path" class="card-img-top rounded" style="width: 100%; height: auto;">
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="">
-                <div class="row">
-                    <div class="col-md-4" v-for="image in productImage">
-                        <img :src="image.public_path" width="100%" height="225" class="rounded object-fit-cover">
-                    </div>
-                </div>
-
-                <div class="col-md-8">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card text-center">
                     <div class="card-body">
-                        <h3 class="card-title mt-3 mb-3">name</h3>
-                        <p>description</p>
-                        <span class="badge bg-light-subtle border border-light-subtle text-light-emphasis rounded-pill">price руб.</span>
+                        <h5 class="card-title mt-1 mb-1">{{ product.data.name }}</h5>
+                        <p class="card-text mb-1" style="font-size: 1em;">{{ product.data.description }}</p>
+                        <span class="badge bg-light-subtle border border-light-subtle text-light-emphasis rounded-pill">{{
+                                product.data.price
+                            }} руб.</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </template>
 
 <style scoped>

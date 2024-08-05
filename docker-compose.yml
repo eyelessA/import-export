@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+    nginx:
+        image: nginx:latest
+        ports:
+            - '8080:80'
+        volumes:
+            - .:/var/www
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        depends_on:
+            - php
+        container_name: import_export_nginx
+
+    php: &php
+        image: php:8.2-fpm
+        working_dir: "/var/www"
+        volumes:
+            - .:/var/www
+        container_name: import_export_php
+
+    mysql:
+        image: mysql:8.0
+        environment:
+            MYSQL_DATABASE: ${MAIN_MYSQL_DATABASE}
+            MYSQL_USER: ${MAIN_MYSQL_USER}
+            MYSQL_PASSWORD: ${MAIN_MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MAIN_MYSQL_ROOT_PASSWORD}
+        ports:
+            - "6000:3306"
+        volumes:
+            - ./tmp/wok_mysql:/var/lib/mysql
+        command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+        restart: unless-stopped
+        container_name: import_export_mysql
+
+    queue:
+        <<: *php
+        command: [ 'php', 'artisan', 'queue:work' ]
+        container_name: import_export_queue
