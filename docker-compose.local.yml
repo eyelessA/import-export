@@ -13,8 +13,9 @@ services:
         container_name: import_export_nginx
 
     php: &php
-        image: php:8.2-fpm
-        working_dir: "/var/www"
+        build:
+            context: .
+            dockerfile: ./docker/php/Dockerfile.local
         volumes:
             - .:/var/www
         container_name: import_export_php
